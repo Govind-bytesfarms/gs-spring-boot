@@ -15,7 +15,7 @@ jobs:
   build:
     name: Build Main Branch
     runs-on: ubuntu-latest
-    environment: Development
+    environment: QA
     steps:
     - name: 'Az CLI login'
       uses: Azure/login@v2.0.0
