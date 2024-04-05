@@ -30,7 +30,6 @@ jobs:
           az account show
           az group list
           az acr login --name continuum
-          docker login myregistry.azurecr.io
 
     - name: Checkout source code
       uses: actions/checkout@v4
