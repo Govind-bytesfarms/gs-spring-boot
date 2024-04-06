@@ -3,10 +3,10 @@ name: CI Build
 on:
   push:
     branches:
-      - githubworkflow
+      - githubworkflow_old
   pull_request:
     branches:
-      - githubworkflow
+      - githubworkflow_old
       
 permissions:
       id-token: write
