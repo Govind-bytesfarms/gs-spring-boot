@@ -49,8 +49,8 @@ jobs:
         with:
           push: true
           tags: ${{ env.CONTAINER_REGISTRY }}/${{ env.REPOSITORY_NAME }}:${{ github.event.pull_request.head.sha }}
-          file: ./Dockerfile
-          context: ./complete/
+          file: ./complete/Dockerfile
+          context: ./complete
 
       - name: Add revision to ACA
         uses: Azure/aca-review-apps@v0.2.0
