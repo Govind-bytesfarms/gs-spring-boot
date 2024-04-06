@@ -18,12 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: QA
     steps:
-    - name: 'Az CLI login'
-      uses: Azure/login@v2.0.0
-      with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}       
 
     - name: Checkout source code
       uses: actions/checkout@v4
@@ -39,14 +33,41 @@ jobs:
       working-directory: ./complete
       run: ./mvnw --batch-mode clean package
 
+    - name: 'Az CLI login'
+      uses: Azure/login@v2.0.0
+      with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}       
+
     - name: 'Docker image build and Push'
       working-directory: ./complete
       run: |
           az acr login --name continuum
           TOKEN=$(az acr login --name continuum --expose-token --output tsv --query accessToken)
           docker login continuum.azurecr.io --username 00000000-0000-0000-0000-000000000000 --password-stdin <<< $TOKEN
-          docker build . -t continuum.azurecr.io/Continuum/springbootmvc:${{ github.run_id }}
-          docker push continuum.azurecr.io/Continuum/springbootmvc:${{ github.run_id}}
+          docker build . -t continuum.azurecr.io/continuum/springbootmvc:${{ github.run_id }}
+          docker push continuum.azurecr.io/continuum/springbootmvc:${{ github.run_id}}
+          
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: 'Az CLI login'
+        uses: Azure/login@v2.0.0
+        with:
+            client-id: ${{ secrets.AZURE_CLIENT_ID }}
+            tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+            subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}  
+          
+      - name: Build and deploy Container App
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          acrName: continuum
+          containerAppName: continuum
+          resourceGroup: cloud-shell-storage-westus2
+          imageToDeploy: continuum.azurecr.io/continuum/springbootmvc:${{ github.run_id} }}
 
 
       
