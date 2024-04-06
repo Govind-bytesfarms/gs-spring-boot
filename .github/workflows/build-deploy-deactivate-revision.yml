@@ -1,8 +1,8 @@
 name: Build, Deploy and Deactivate ACA revision
 
-on:
-  pull_request:
-    types: [opened, synchronize, closed, push]
+on: [push]
+ # pull_request:
+ #   types: [opened, synchronize, closed]
 
 permissions:
   # for `create-or-update-comment` action
@@ -20,6 +20,7 @@ env:
 jobs:
   add-revision:
     runs-on: ubuntu-latest
+    environment: QA
     if: github.event.action != 'closed'
 
     steps:
@@ -70,6 +71,7 @@ jobs:
 
   deactivate-revision:
     runs-on: ubuntu-latest
+    environment: QA
     if: github.event.action != 'opened'
 
     steps:
