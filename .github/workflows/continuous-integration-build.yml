@@ -39,16 +39,14 @@ jobs:
       working-directory: ./complete
       run: ./mvnw --batch-mode clean package
 
-    - name: 'Run Azure CLI commands'
+    - name: 'Docker image build and Push'
       working-directory: ./complete
       run: |
-          az account show
-          az group list
           az acr login --name continuum
           TOKEN=$(az acr login --name continuum --expose-token --output tsv --query accessToken)
           docker login continuum.azurecr.io --username 00000000-0000-0000-0000-000000000000 --password-stdin <<< $TOKEN
-          docker build . -t continuum.azurecr.io/springbootmvc:${{ github.sha }}
-          docker push continuum.azurecr.io/springbootmvc:${{ github.sha }}
+          docker build . -t continuum.azurecr.io/Continuum/springbootmvc:${{ github.run_id }}
+          docker push continuum.azurecr.io/Continuum/springbootmvc:${{ github.run_id}}
 
 
       
