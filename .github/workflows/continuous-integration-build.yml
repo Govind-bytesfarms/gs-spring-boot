@@ -30,6 +30,9 @@ jobs:
           az account show
           az group list
           az acr login --name continuum
+          TOKEN=$(az acr login --name continuum --expose-token --output tsv --query accessToken)
+          docker login continuum.azurecr.io --username 00000000-0000-0000-0000-000000000000 --password-stdin <<< $TOKEN
+          
 
     - name: Checkout source code
       uses: actions/checkout@v4
