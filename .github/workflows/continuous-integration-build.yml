@@ -67,7 +67,7 @@ jobs:
           acrName: continuum
           containerAppName: continuum
           resourceGroup: cloud-shell-storage-westus2
-          imageToDeploy: continuum.azurecr.io/continuum/springbootmvc:${{ github.run_id} }}
+          imageToDeploy: continuum.azurecr.io/continuum/springbootmvc:${{ github.run_id }}
 
 
       
