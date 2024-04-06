@@ -40,6 +40,7 @@ jobs:
       run: ./mvnw --batch-mode clean package
 
     - name: 'Run Azure CLI commands'
+      working-directory: ./complete
       run: |
           az account show
           az group list
