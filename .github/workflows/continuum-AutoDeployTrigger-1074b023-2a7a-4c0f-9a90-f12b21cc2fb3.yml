@@ -46,7 +46,7 @@ jobs:
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}/complete 
+          appSourcePath: ${{ github.workspace }}/complete/src 
           registryUrl: continuum.azurecr.io
           registryUsername: ${{ secrets.CONTINUUM_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.CONTINUUM_REGISTRY_PASSWORD }}
