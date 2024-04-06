@@ -33,21 +33,6 @@ jobs:
       working-directory: ./complete
       run: ./mvnw --batch-mode clean package
 
-    - name: 'Az CLI login'
-      uses: Azure/login@v2.0.0
-      with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}       
-
-    - name: 'Docker image build and Push'
-      working-directory: ./complete
-      run: |
-          az acr login --name continuum
-          TOKEN=$(az acr login --name continuum --expose-token --output tsv --query accessToken)
-          docker login continuum.azurecr.io --username 00000000-0000-0000-0000-000000000000 --password-stdin <<< $TOKEN
-          docker build . -t continuum.azurecr.io/continuum/springbootmvc:${{ github.run_id }}
-          docker push continuum.azurecr.io/continuum/springbootmvc:${{ github.run_id}}
           
   deploy:
     runs-on: ubuntu-latest
@@ -61,14 +46,33 @@ jobs:
             client-id: ${{ secrets.AZURE_CLIENT_ID }}
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}  
-          
-      - name: deploy Container App
-        uses: azure/container-apps-deploy-action@v2
+            
+      - name: 'Docker image build and Push'
+        working-directory: ./complete
+        run: |
+            TOKEN=$(az acr login --name continuum --expose-token --output tsv --query accessToken)
+            docker login continuum.azurecr.io --username 00000000-0000-0000-0000-000000000000 --password-stdin <<< $TOKEN
+            docker build . -t continuum.azurecr.io/continuum/springbootmvc:${{ github.run_id }}
+            docker push continuum.azurecr.io/continuum/springbootmvc:${{ github.run_id}}
+
+      - name: Add revision to ACA
+        uses: Azure/aca-review-apps@v0.2.0
+        id: aca_new_revision
         with:
-          acrName: continuum
-          containerAppName: continuum
-          resourceGroup: cloud-shell-storage-westus2
-          imageToDeploy: continuum.azurecr.io/continuum/springbootmvc:${{ github.run_id }}
+          resource-group: cloud-shell-storage-westus2
+          name: continuum
+          revision-name-suffix: ${{ env.SHORT_HASH }}
+          image: continuum.azurecr.io/continuum/springbootmvc:${{ github.run_id}}
+    
+      - name: add new comment to PR
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Revision ${{ env.CONTAINERAPP_NAME }}--${{ env.SHORT_HASH }} is created.
+            ${{ steps.aca_new_revision.outputs.app-url }}
+      
+            
 
 
       
