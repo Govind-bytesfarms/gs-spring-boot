@@ -46,13 +46,13 @@ jobs:
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}/complete/src 
-          registryUrl: continuum.azurecr.io
+          appSourcePath: ${{ github.workspace }}/complete
+          acrName: continuum
           registryUsername: ${{ secrets.CONTINUUM_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.CONTINUUM_REGISTRY_PASSWORD }}
           containerAppName: continuum
           resourceGroup: cloud-shell-storage-westus2
-          imageToBuild: continuum.azurecr.io/continuum:${{ github.sha }}
           imageToDeploy: continuum.azurecr.io/continuum:${{ github.sha }}
+
  
 
