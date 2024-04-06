@@ -70,7 +70,7 @@ jobs:
           context: ./complete
 
       - name: Add revision to ACA
-        uses: Azure/aca-review-apps@v0.2.0
+        uses: Azure/aca-review-apps@v0.2.1
         id: aca_new_revision
         with:
           resource-group: ${{ env.RESOURCE_GROUP_NAME }}
@@ -111,7 +111,7 @@ jobs:
             subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}  
 
       - name: Deactivate Preview revision on ACA
-        uses: Azure/aca-review-apps@v0.2.0
+        uses: Azure/aca-review-apps@v0.2.1
         with:
           resource-group: ${{ env.RESOURCE_GROUP_NAME }}
           name: ${{ env.CONTAINERAPP_NAME }}
