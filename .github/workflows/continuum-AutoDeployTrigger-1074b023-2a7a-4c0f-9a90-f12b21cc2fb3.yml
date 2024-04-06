@@ -53,5 +53,6 @@ jobs:
           containerAppName: continuum
           resourceGroup: cloud-shell-storage-westus2
           imageToBuild: continuum.azurecr.io/continuum:${{ github.sha }}
+          imageToDeploy: continuum.azurecr.io/continuum:${{ github.sha }}
  
 
