@@ -52,6 +52,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
+    environment: QA
     
     steps:
       - name: 'Az CLI login'
