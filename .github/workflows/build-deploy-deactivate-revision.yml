@@ -1,8 +1,8 @@
 name: Build, Deploy and Deactivate ACA revision
 
-on: [push]
- # pull_request:
- #   types: [opened, synchronize, closed]
+on:
+  pull_request:
+    types: [opened, synchronize, closed]
 
 permissions:
   # for `create-or-update-comment` action
