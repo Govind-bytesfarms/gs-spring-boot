@@ -23,16 +23,7 @@ jobs:
       with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-    - name: 'Run Azure CLI commands'
-      run: |
-          az account show
-          az group list
-          az acr login --name continuum
-          TOKEN=$(az acr login --name continuum --expose-token --output tsv --query accessToken)
-          docker login continuum.azurecr.io --username 00000000-0000-0000-0000-000000000000 --password-stdin <<< $TOKEN
-          
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}       
 
     - name: Checkout source code
       uses: actions/checkout@v4
@@ -47,6 +38,17 @@ jobs:
     - name: Build Complete with Maven
       working-directory: ./complete
       run: ./mvnw --batch-mode clean package
+
+    - name: 'Run Azure CLI commands'
+      run: |
+          az account show
+          az group list
+          az acr login --name continuum
+          TOKEN=$(az acr login --name continuum --expose-token --output tsv --query accessToken)
+          docker login continuum.azurecr.io --username 00000000-0000-0000-0000-000000000000 --password-stdin <<< $TOKEN
+          docker build . -t continuum.azurecr.io/springbootmvc:${{ github.sha }}
+          docker push continuum.azurecr.io/springbootmvc:${{ github.sha }}
+
 
       
 
