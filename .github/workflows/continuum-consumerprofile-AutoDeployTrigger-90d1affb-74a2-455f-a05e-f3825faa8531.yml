@@ -47,8 +47,8 @@ jobs:
         with:
           appSourcePath: ${{ github.workspace }}/complete 
           registryUrl: continuum.azurecr.io
-          registryUsername: ${{ secrets.CONTINUUMCONSUMERPROFILE_REGISTRY_USERNAME }}
-          registryPassword: ${{ secrets.CONTINUUMCONSUMERPROFILE_REGISTRY_PASSWORD }}
+      #    registryUsername: ${{ secrets.CONTINUUMCONSUMERPROFILE_REGISTRY_USERNAME }}
+      #    registryPassword: ${{ secrets.CONTINUUMCONSUMERPROFILE_REGISTRY_PASSWORD }}
           containerAppName: continuum-consumerprofile
           resourceGroup: cloud-shell-storage-westus2
           imageToBuild: continuum.azurecr.io/continuum-consumerprofile:${{ github.sha }}
