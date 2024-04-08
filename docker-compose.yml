@@ -1,0 +1,22 @@
+version: "3.4"
+
+services:
+  back-end:
+    image: back-end
+    build:
+      context: ./complete
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080
+
+  front-end:
+    image: front-end
+    build:
+      context: ./react/my-app
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+      REACT_APP_BACKEND_URL: http://localhost:8080
+      NODE_APP_BACKEND_URL: http://localhost:8080
+    ports:
+      - 80:3000

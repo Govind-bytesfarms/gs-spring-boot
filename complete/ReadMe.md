@@ -16,6 +16,8 @@ java -jar build/libs/[jarfilename].jar
 
 # Build image and Run container
 
-docker build -t myorg/springbootmvc .
-docker run -p 8080:8080 myorg/springbootmvc
-docker run -ti --entrypoint /bin/sh myorg/springbootmvc
+docker build -t back-end .
+docker run -p 8080:8080 back-end
+
+docker build -t front-end .
+docker run -p 80:3000 front-end
