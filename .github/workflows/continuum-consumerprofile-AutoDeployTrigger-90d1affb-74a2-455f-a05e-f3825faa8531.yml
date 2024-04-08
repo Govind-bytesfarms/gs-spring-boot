@@ -1,0 +1,47 @@
+name: Trigger auto deployment for continuum-consumerprofile
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ githubworkflow ]
+    paths:
+    - 'complete/**'
+    - '.github/workflows/continuum-consumerprofile-AutoDeployTrigger-90d1affb-74a2-455f-a05e-f3825faa8531.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.CONTINUUMCONSUMERPROFILE_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.CONTINUUMCONSUMERPROFILE_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.CONTINUUMCONSUMERPROFILE_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}/complete 
+          registryUrl: continuum.azurecr.io
+          registryUsername: ${{ secrets.CONTINUUMCONSUMERPROFILE_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.CONTINUUMCONSUMERPROFILE_REGISTRY_PASSWORD }}
+          containerAppName: continuum-consumerprofile
+          resourceGroup: cloud-shell-storage-westus2
+          imageToBuild: continuum.azurecr.io/continuum-consumerprofile:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
+
+
