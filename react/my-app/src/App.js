@@ -9,7 +9,7 @@ function App() {
   useEffect(() => {
 
     console.log(process.env.REACT_APP_BACKEND_URL)
-    fetch(process.env.REACT_APP_BACKEND_URL)
+    fetch('/api/getstring')
       .then(response => response.text())
       .then(str => {
         console.log(str);

@@ -1,3 +1,6 @@
+###
+GET https://gray-ground-04ced2e0f.5.azurestaticapps.net/get/getstring
+###
  Get http://localhost:8080/actuator/health
 
 ###
