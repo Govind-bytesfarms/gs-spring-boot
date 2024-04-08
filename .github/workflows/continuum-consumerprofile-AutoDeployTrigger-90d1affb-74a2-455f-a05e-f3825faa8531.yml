@@ -5,7 +5,7 @@ on:
   # Automatically trigger it when detected changes in repo
   push:
     branches: 
-      [ githubworkflow ]
+      [ githubworkflow_old ]
     paths:
     - 'complete/**'
     - '.github/workflows/continuum-consumerprofile-AutoDeployTrigger-90d1affb-74a2-455f-a05e-f3825faa8531.yml'
