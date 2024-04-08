@@ -1,1 +1,15 @@
  Get http://localhost:8080/actuator/health
+
+###
+
+ Get https://continuum.jollymoss-b1e80ec1.westus2.azurecontainerapps.io/actuator/health
+
+
+###
+
+Get https://continuum.jollymoss-b1e80ec1.westus2.azurecontainerapps.io
+
+
+####
+
+Get https://continuum-consumerprofile.jollymoss-b1e80ec1.westus2.azurecontainerapps.io/
