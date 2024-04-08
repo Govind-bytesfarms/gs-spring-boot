@@ -64,13 +64,13 @@ jobs:
       - name: Confirm git commit SHA output
         run: echo ${{ steps.vars.outputs.short_sha }}
             
-      - name: Add revision to ACA
-        uses: Azure/aca-review-apps@v0.2.0
-        id: aca_new_revision
-        with:
-          resource-group: cloud-shell-storage-westus2
-          name: continuum-consumerprofile
-          revision-name-suffix: ${{ steps.vars.outputs.short_sha }}
-          image: continuum.azurecr.io/continuum-consumerprofile:${{ github.sha }}
+    #  - name: Add revision to ACA
+    #    uses: Azure/aca-review-apps@v0.2.0
+    #    id: aca_new_revision
+    #    with:
+    #      resource-group: cloud-shell-storage-westus2
+    #      name: continuum-consumerprofile
+    #      revision-name-suffix: ${{ steps.vars.outputs.short_sha }}
+    #      image: continuum.azurecr.io/continuum-consumerprofile:${{ github.sha }}
 
 
