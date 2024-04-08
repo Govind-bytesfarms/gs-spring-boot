@@ -5,7 +5,7 @@ on:
   # Automatically trigger it when detected changes in repo
   push:
     branches: 
-      [ githubworkflow_old ]
+      [ githubworkflow ]
     paths:
     - 'complete/**'
     - '.github/workflows/continuum-consumerprofile-AutoDeployTrigger-90d1affb-74a2-455f-a05e-f3825faa8531.yml'
@@ -54,5 +54,23 @@ jobs:
           imageToBuild: continuum.azurecr.io/continuum-consumerprofile:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
+
+      - name: Set short git commit SHA
+        id: vars
+        run: |
+          calculatedSha=$(git rev-parse --short ${{ github.sha }})
+          echo "::set-output name=short_sha::$calculatedSha"
+          
+      - name: Confirm git commit SHA output
+        run: echo ${{ steps.vars.outputs.short_sha }}
+            
+      - name: Add revision to ACA
+        uses: Azure/aca-review-apps@v0.2.0
+        id: aca_new_revision
+        with:
+          resource-group: cloud-shell-storage-westus2
+          name: continuum-consumerprofile
+          revision-name-suffix: ${{ steps.vars.outputs.short_sha }}
+          image: continuum.azurecr.io/continuum-consumerprofile:${{ github.sha }}
 
 
