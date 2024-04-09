@@ -56,4 +56,4 @@ jobs:
           #    registryPassword: ${{ secrets.CONTINUUMCONSUMERPROFILE_REGISTRY_PASSWORD }}
           containerAppName: continuum-consumerprofile
           resourceGroup: cloud-shell-storage-westus2
-          imageToBuild: continuum.azurecr.io/continuum-consumerprofile:${{ github.sha }}
+          imageToBuild: continuum.azurecr.io/continuum/springbootmvc:${{ github.sha }}
