@@ -1,7 +1,5 @@
 
 
-[![Trigger auto deployment for continuum-consumerprofile](https://github.com/Govind-bytesfarms/gs-spring-boot/actions/workflows/continuum-consumerprofile-AutoDeployTrigger-90d1affb-74a2-455f-a05e-f3825faa8531.yml/badge.svg?branch=githubworkflow)](https://github.com/Govind-bytesfarms/gs-spring-boot/actions/workflows/continuum-consumerprofile-AutoDeployTrigger-90d1affb-74a2-455f-a05e-f3825faa8531.yml)
-
 :spring_boot_version: 3.2.0
 :spring-boot: https://github.com/spring-projects/spring-boot
 :toc:
