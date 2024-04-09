@@ -40,20 +40,20 @@ jobs:
           client-id: ${{ secrets.CONTINUUMCONSUMERPROFILE_AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.CONTINUUMCONSUMERPROFILE_AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.CONTINUUMCONSUMERPROFILE_AZURE_SUBSCRIPTION_ID }}
-      
-      - name: 'Docker login'
-        working-directory: ./complete
+
+      - name: "Docker login"
+        working-directory: ./springbootmvc
         run: |
-            TOKEN=$(az acr login --name continuum --expose-token --output tsv --query accessToken)
-            docker login continuum.azurecr.io --username 00000000-0000-0000-0000-000000000000 --password-stdin <<< $TOKEN
+          TOKEN=$(az acr login --name continuum --expose-token --output tsv --query accessToken)
+          docker login continuum.azurecr.io --username 00000000-0000-0000-0000-000000000000 --password-stdin <<< $TOKEN
 
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
           appSourcePath: ${{ github.workspace }}/springbootmvc
           registryUrl: continuum.azurecr.io
-      #    registryUsername: ${{ secrets.CONTINUUMCONSUMERPROFILE_REGISTRY_USERNAME }}
-      #    registryPassword: ${{ secrets.CONTINUUMCONSUMERPROFILE_REGISTRY_PASSWORD }}
+          #    registryUsername: ${{ secrets.CONTINUUMCONSUMERPROFILE_REGISTRY_USERNAME }}
+          #    registryPassword: ${{ secrets.CONTINUUMCONSUMERPROFILE_REGISTRY_PASSWORD }}
           containerAppName: continuum-consumerprofile
           resourceGroup: cloud-shell-storage-westus2
           imageToBuild: continuum.azurecr.io/continuum-consumerprofile:${{ github.sha }}
