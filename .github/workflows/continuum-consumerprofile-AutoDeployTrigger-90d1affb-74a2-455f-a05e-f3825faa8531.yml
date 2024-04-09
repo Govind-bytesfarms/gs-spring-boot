@@ -4,19 +4,18 @@ name: Trigger auto deployment for continuum-consumerprofile
 on:
   # Automatically trigger it when detected changes in repo
   push:
-    branches: 
-      [ githubworkflow ]
+    branches: [githubworkflow]
     paths:
-    - 'complete/**'
-    - '.github/workflows/continuum-consumerprofile-AutoDeployTrigger-90d1affb-74a2-455f-a05e-f3825faa8531.yml'
+      - "springbootmvc/**"
+      - ".github/workflows/continuum-consumerprofile-AutoDeployTrigger-90d1affb-74a2-455f-a05e-f3825faa8531.yml"
 
-  # Allow manual trigger 
-  workflow_dispatch:      
+  # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       id-token: write #This is required for requesting the OIDC JWT Token
       contents: read #Required when GH token is used to authenticate with private repo
 
@@ -30,9 +29,9 @@ jobs:
           java-version: "17"
           distribution: "temurin"
           cache: maven
-            
-      - name: Build Complete with Maven
-        working-directory: ./complete
+
+      - name: Build springbootmvc with Maven
+        working-directory: ./springbootmvc
         run: ./mvnw --batch-mode clean package
 
       - name: Azure Login
@@ -45,14 +44,10 @@ jobs:
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}/complete 
+          appSourcePath: ${{ github.workspace }}/springbootmvc
           registryUrl: continuum.azurecr.io
           registryUsername: ${{ secrets.CONTINUUMCONSUMERPROFILE_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.CONTINUUMCONSUMERPROFILE_REGISTRY_PASSWORD }}
           containerAppName: continuum-consumerprofile
           resourceGroup: cloud-shell-storage-westus2
           imageToBuild: continuum.azurecr.io/continuum-consumerprofile:${{ github.sha }}
-          _buildArgumentsKey_: |
-            _buildArgumentsValues_
-
-

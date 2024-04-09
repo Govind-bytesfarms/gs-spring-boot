@@ -4,7 +4,7 @@ services:
   back-end:
     image: back-end
     build:
-      context: ./complete
+      context: ./springbootmvc
       dockerfile: ./Dockerfile
     ports:
       - 8080:8080

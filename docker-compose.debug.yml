@@ -4,7 +4,7 @@ services:
   front-end:
     image: springbootmvc
     build:
-      context: .
+      context: ./springbootmvc
       dockerfile: ./Dockerfile
     environment:
       JAVA_OPTS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005,quiet=y
@@ -12,9 +12,9 @@ services:
       - 8080:8080
       - 5005:5005
   back-end:
-    image: reactjs
+    image: react
     build:
-      context: .
+      context: ./springbootmvc
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: development
