@@ -15,7 +15,7 @@ permissions:
 env:
   CONTAINER_REGISTRY: continuum.azurecr.io # TODO: container registry name like `foobar.azurecr.io`
   RESOURCE_GROUP_NAME: cloud-shell-storage-westus2 # TODO: resource group name where the target Azure Container Apps resource in
-  CONTAINERAPP_NAME: continuum # TODO: Azure Container Apps resource name
+  CONTAINERAPP_NAME: continuum-consumerprofile # TODO: Azure Container Apps resource name
 
 jobs:
   add-revision:
