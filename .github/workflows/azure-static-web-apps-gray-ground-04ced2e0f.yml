@@ -10,6 +10,8 @@ on:
       - githubworkflow_old
     paths:
       - "react/my-app/**"
+  # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   build_and_deploy_job:
