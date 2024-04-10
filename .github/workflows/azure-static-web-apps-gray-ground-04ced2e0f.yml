@@ -8,6 +8,8 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - githubworkflow_old
+    paths:
+      - "react/my-app/**"
 
 jobs:
   build_and_deploy_job:
