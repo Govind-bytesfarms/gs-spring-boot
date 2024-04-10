@@ -3,11 +3,11 @@ name: Azure Static Web Apps CI/CD
 on:
   push:
     branches:
-      - githubworkflow_old
+      - githubworkflow
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
-      - githubworkflow_old
+      - githubworkflow
     paths:
       - "react/my-app/**"
   # Allow manual trigger
